@@ -10,9 +10,8 @@ class BeerServiceImpl : BeerService {
     @GetMapping("/{beerId}")
     override fun getBeerById(beerId: UUID): BeerDto =
         BeerDto.builder()
-            .id(beerId)
-            .beerName("lager")
-            .beerStyle("light")
-            .upc(123L)
+            .id(UUID.randomUUID())
+            .beerName("Galaxy Cat")
+            .beerStyle("pale Ale")
             .build()
 }
