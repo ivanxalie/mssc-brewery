@@ -1,5 +1,6 @@
 package guru.springframework.msscbrewery.web.model;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,7 +12,9 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CustomerDto {
+public class Beer {
     private UUID id;
-    private String name;
+    private String beerName;
+    private String beerStyle;
+    private Long upc;
 }

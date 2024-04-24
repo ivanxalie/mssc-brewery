@@ -1,11 +1,11 @@
 package guru.springframework.msscbrewery.services
 
-import guru.springframework.msscbrewery.web.model.CustomerDto
+import guru.springframework.msscbrewery.web.model.Customer
 import java.util.*
 
 interface CustomerService {
-    fun getById(customerId: UUID): CustomerDto
-    fun saveNewCustomer(customerDto: CustomerDto): CustomerDto
-    fun updateCustomer(customerId: UUID, customerDto: CustomerDto)
+    fun getById(customerId: UUID): Customer
+    fun saveNewCustomer(customerDto: Customer): Customer
+    fun updateCustomer(customerId: UUID, customerDto: Customer)
     fun deleteById(customerId: UUID)
 }
