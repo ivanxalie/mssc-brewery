@@ -2,10 +2,12 @@ package guru.springframework.msscbrewery.web.controller
 
 import guru.springframework.msscbrewery.config.AppConfig
 import guru.springframework.msscbrewery.config.AppConfig.Companion.API_CUSTOMER_V1_PATH
+import guru.springframework.msscbrewery.config.AppConfig.Companion.MOCK_HOST_PORT
 import guru.springframework.msscbrewery.services.CustomerService
 import guru.springframework.msscbrewery.web.model.Customer
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
+import org.springframework.http.HttpStatus.NO_CONTENT
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import java.util.*
@@ -22,12 +24,12 @@ class CustomerController(private val customerService: CustomerService) {
     fun addCustomer(@RequestBody customerDto: Customer): ResponseEntity<Any> {
         val saved = customerService.saveNewCustomer(customerDto)
         val headers = HttpHeaders()
-        headers.add("Location", "${AppConfig.MOCK_HOST_PORT}/$API_CUSTOMER_V1_PATH/${saved.id}")
+        headers.add("Location", "$MOCK_HOST_PORT/$API_CUSTOMER_V1_PATH/${saved.id}")
         return ResponseEntity(headers, HttpStatus.CREATED)
     }
 
     @PutMapping("/{customerId}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ResponseStatus(NO_CONTENT)
     fun updateCustomer(
         @RequestBody customerDto: Customer,
         @PathVariable("customerId") customerId: UUID,
@@ -36,7 +38,7 @@ class CustomerController(private val customerService: CustomerService) {
     }
 
     @DeleteMapping("/{customerId}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ResponseStatus(NO_CONTENT)
     fun deleteCustomer(@PathVariable("customerId") customerId: UUID) {
         customerService.deleteById(customerId)
     }
