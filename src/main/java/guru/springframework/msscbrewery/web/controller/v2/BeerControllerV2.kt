@@ -1,9 +1,10 @@
-package guru.springframework.msscbrewery.web.controller
+package guru.springframework.msscbrewery.web.controller.v2
 
 import guru.springframework.msscbrewery.config.AppConfig.Companion.API_BEER_V1_PATH
+import guru.springframework.msscbrewery.config.AppConfig.Companion.API_BEER_V2_PATH
 import guru.springframework.msscbrewery.config.AppConfig.Companion.MOCK_HOST_PORT
-import guru.springframework.msscbrewery.services.BeerService
-import guru.springframework.msscbrewery.web.model.Beer
+import guru.springframework.msscbrewery.services.v2.BeerServiceV2
+import guru.springframework.msscbrewery.web.model.v2.BeerV2
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -12,22 +13,22 @@ import java.util.*
 import javax.validation.Valid
 
 @RestController
-@RequestMapping("/$API_BEER_V1_PATH")
-class BeerController(private val beerService: BeerService) {
+@RequestMapping("/$API_BEER_V2_PATH")
+class BeerControllerV2(private val beerService: BeerServiceV2) {
     @GetMapping("/{beerId}")
-    fun getBeer(@PathVariable("beerId") beerId: UUID): ResponseEntity<Beer> =
-        ResponseEntity.ok(beerService.getBeerById(beerId))
+    fun getBeer(@PathVariable("beerId") beerId: UUID): ResponseEntity<BeerV2> =
+        ResponseEntity.ok(beerService.getBeerById(beerId)!!)
 
     @PostMapping
-    fun addBeer(@Valid @RequestBody beerDto: Beer): ResponseEntity<Any> {
-        val saved: Beer = beerService.saveNewBeer(beerDto)
+    fun addBeer(@Valid @RequestBody beerDto: BeerV2): ResponseEntity<Any> {
+        val saved = beerService.saveNewBeer(beerDto)
         val headers = HttpHeaders()
-        headers.add("Location", "$MOCK_HOST_PORT/$API_BEER_V1_PATH/${saved.id}")
+        headers.add("Location", "$MOCK_HOST_PORT/$API_BEER_V1_PATH/${saved?.id}")
         return ResponseEntity(headers, HttpStatus.CREATED)
     }
 
     @PutMapping("/{beerId}")
-    fun updateBeer(@PathVariable("beerId") beerId: UUID, @Valid @RequestBody beerDto: Beer): ResponseEntity<Any> {
+    fun updateBeer(@PathVariable("beerId") beerId: UUID, @Valid @RequestBody beerDto: BeerV2): ResponseEntity<Any> {
         beerService.updateBeer(beerId, beerDto)
         return ResponseEntity.noContent().build()
     }
