@@ -2,7 +2,7 @@ package guru.springframework.msscbrewery.web.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import guru.springframework.msscbrewery.services.BeerService;
-import guru.springframework.msscbrewery.web.model.Beer;
+import guru.springframework.msscbrewery.web.model.BeerDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,11 +31,11 @@ public class BeerControllerTest {
     @Autowired
     private ObjectMapper mapper;
 
-    private Beer validBeer;
+    private BeerDto validBeer;
 
     @BeforeEach
     void setUp() {
-        validBeer = Beer.builder()
+        validBeer = BeerDto.builder()
                 .id(UUID.randomUUID())
                 .beerName("Beer1")
                 .beerStyle("PALE_ALE")
@@ -57,9 +57,9 @@ public class BeerControllerTest {
 
     @Test
     void saveBeer() throws Exception {
-        Beer beerDto = validBeer;
+        BeerDto beerDto = validBeer;
         beerDto.setId(null);
-        Beer savedDto = Beer.builder().id(UUID.randomUUID()).beerName("New Beer").build();
+        BeerDto savedDto = BeerDto.builder().id(UUID.randomUUID()).beerName("New Beer").build();
         String beerDtoJson = mapper.writeValueAsString(beerDto);
 
         given(service.saveNewBeer(any())).willReturn(savedDto);
@@ -72,7 +72,7 @@ public class BeerControllerTest {
 
     @Test
     void updateBeer() throws Exception {
-        Beer beerDto = validBeer;
+        BeerDto beerDto = validBeer;
         beerDto.setId(null);
         String beerDtoJson = mapper.writeValueAsString(beerDto);
 

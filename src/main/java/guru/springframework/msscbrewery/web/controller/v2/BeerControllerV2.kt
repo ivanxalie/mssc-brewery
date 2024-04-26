@@ -4,7 +4,7 @@ import guru.springframework.msscbrewery.config.AppConfig.Companion.API_BEER_V1_P
 import guru.springframework.msscbrewery.config.AppConfig.Companion.API_BEER_V2_PATH
 import guru.springframework.msscbrewery.config.AppConfig.Companion.MOCK_HOST_PORT
 import guru.springframework.msscbrewery.services.v2.BeerServiceV2
-import guru.springframework.msscbrewery.web.model.v2.BeerV2
+import guru.springframework.msscbrewery.web.model.v2.BeerDtoV2
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -18,12 +18,13 @@ import javax.validation.constraints.NotNull
 @RestController
 @RequestMapping("/$API_BEER_V2_PATH")
 open class BeerControllerV2(private val beerService: BeerServiceV2) {
+
     @GetMapping("/{beerId}")
-    fun getBeer(@NotNull @PathVariable("beerId") beerId: UUID): ResponseEntity<BeerV2> =
+    fun getBeer(@NotNull @PathVariable("beerId") beerId: UUID): ResponseEntity<BeerDtoV2> =
         ResponseEntity.ok(beerService.getBeerById(beerId)!!)
 
     @PostMapping
-    fun addBeer(@Valid @NotNull @RequestBody beerDto: BeerV2): ResponseEntity<Any> {
+    fun addBeer(@Valid @NotNull @RequestBody beerDto: BeerDtoV2): ResponseEntity<Any> {
         val saved = beerService.saveNewBeer(beerDto)
         val headers = HttpHeaders()
         headers.add("Location", "$MOCK_HOST_PORT/$API_BEER_V1_PATH/${saved?.id}")
@@ -31,7 +32,7 @@ open class BeerControllerV2(private val beerService: BeerServiceV2) {
     }
 
     @PutMapping("/{beerId}")
-    fun updateBeer(@PathVariable("beerId") beerId: UUID, @Valid @RequestBody beerDto: BeerV2): ResponseEntity<Any> {
+    fun updateBeer(@PathVariable("beerId") beerId: UUID, @Valid @RequestBody beerDto: BeerDtoV2): ResponseEntity<Any> {
         beerService.updateBeer(beerId, beerDto)
         return ResponseEntity.noContent().build()
     }

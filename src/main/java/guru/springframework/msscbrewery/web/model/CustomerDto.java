@@ -1,27 +1,23 @@
 package guru.springframework.msscbrewery.web.model;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Null;
-import javax.validation.constraints.Positive;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.UUID;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Beer {
-    @Null
+public class CustomerDto {
+    @NotNull
     private UUID id;
+    @Size(min = 3, max = 100)
     @NotBlank
-    private String beerName;
-    @NotBlank
-    private String beerStyle;
-    @Positive
-    private Long upc;
+    private String name;
 }
